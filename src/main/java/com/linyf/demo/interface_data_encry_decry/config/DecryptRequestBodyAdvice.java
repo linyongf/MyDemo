@@ -16,7 +16,7 @@ import java.util.Map;
 
 @Slf4j
 @Component
-@ControllerAdvice
+//@ControllerAdvice
 public class DecryptRequestBodyAdvice implements RequestBodyAdvice {
 
     @Override

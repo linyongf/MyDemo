@@ -16,7 +16,7 @@ import javax.servlet.http.HttpServletRequest;
 
 @Slf4j
 @Component
-@ControllerAdvice
+//@ControllerAdvice
 public class EncryptResponseBodyAdvice implements ResponseBodyAdvice {
     @Override
     public boolean supports(MethodParameter methodParameter, Class aClass) {
