@@ -1,6 +1,7 @@
 package com.linyf.demo.scheduled_task.Quartz;
 
 import org.quartz.JobDataMap;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.scheduling.quartz.*;
@@ -17,6 +18,10 @@ import java.util.Date;
  */
 @Configuration
 public class QuartzConfig {
+
+    @Value("${cronStr}")
+    private String cronExpression;
+
     @Bean
     HelloService helloService() {
         return new HelloService();
@@ -74,7 +79,8 @@ public class QuartzConfig {
     @Bean
     CronTriggerFactoryBean cronTriggerFactoryBean() {
         CronTriggerFactoryBean bean = new CronTriggerFactoryBean();
-        bean.setCronExpression("0/10 * * * * ?");
+//        bean.setCronExpression("0/10 * * * * ?");
+        bean.setCronExpression(cronExpression);
         bean.setJobDetail(jobDetailFactoryBean().getObject());
         return bean;
     }
