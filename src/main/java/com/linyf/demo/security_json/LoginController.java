@@ -10,8 +10,8 @@ public class LoginController {
     public RespBean login() {
         return RespBean.error("尚未登录，请登录");
     }
-    @GetMapping("/hello")
-    public String hello() {
-        return "hello";
+    @GetMapping("/login-success")
+    public String loginSuccess() {
+        return "login-success";
     }
 }
