@@ -89,10 +89,10 @@ public class QuartzConfig {
     @Bean
     SchedulerFactoryBean schedulerFactoryBean() {
         SchedulerFactoryBean schedulerFactoryBean = new SchedulerFactoryBean();
-        schedulerFactoryBean.setTriggers(
+//        schedulerFactoryBean.setTriggers(
 //                simpleTriggerFactoryBean().getObject(),
-                cronTriggerFactoryBean().getObject()
-        );
+//                cronTriggerFactoryBean().getObject()
+//        );
         return schedulerFactoryBean;
     }
 }
