@@ -4,7 +4,10 @@ import org.springframework.format.annotation.DateTimeFormat;
 import org.springframework.format.datetime.DateFormatter;
 
 import java.io.File;
+import java.io.FileInputStream;
+import java.io.IOException;
 import java.lang.reflect.InvocationTargetException;
+import java.lang.reflect.Method;
 import java.time.format.DateTimeFormatter;
 import java.util.Date;
 import java.util.HashMap;
@@ -18,7 +21,7 @@ public class ManagerFactory {
     private static final Map<String, LoadInfo> loadTimeMap = new HashMap<>();
 
     /** 要加载的类的 classpath */
-    public static final String CLASS_PATH = "D:/self/MyDemo/src/main/java/";
+    public static final String CLASS_PATH = "D:/self/MyDemo/target/classes/";
 
     /** 实现热加载的类的全名称(包名+类名 ) */
     public static final String MY_MANAGER = "com.linyf.demo.class_hot_load.MyManager";
@@ -31,7 +34,7 @@ public class ManagerFactory {
 
         // loadTimeMap 不包含 ClassName 为 key 的信息，证明这个类没有被加载，要加载到 JVM
         // 加载类的时间戳变化了，我们同样要重新加载这个类到 JVM。
-        if (loadTimeMap.get(className) == null || loadTimeMap.get(className).getLoadTime() != lastModified) {
+        if (loadTimeMap.get(className) == null || loadTimeMap.get(className).getLoadTime() < lastModified) {
             load(className, lastModified);
         }
         return loadTimeMap.get(className).getManager();
@@ -47,8 +50,14 @@ public class ManagerFactory {
         Class loadClass = null;
         // 加载
         try {
-            loadClass = ManagerFactory.class.getClassLoader().loadClass(className);
-        } catch (ClassNotFoundException e) {
+            MyClassLoader classLoader = new MyClassLoader(CLASS_PATH);
+//            loadClass = classLoader.loadClass(className);
+            loadClass = classLoader.findClass(className);
+            Object o = loadClass.newInstance();
+            Method logic = loadClass.getDeclaredMethod("logic", null);
+            logic.invoke(o, null);
+//            loadClass = ManagerFactory.class.getClassLoader().loadClass(className);
+        } catch (Exception e) {
             e.printStackTrace();
         }
 
@@ -69,4 +78,5 @@ public class ManagerFactory {
         }
         return null;
     }
+
 }
