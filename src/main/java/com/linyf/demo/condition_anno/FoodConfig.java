@@ -4,7 +4,7 @@ import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Conditional;
 import org.springframework.context.annotation.Configuration;
 
-@Configuration
+//@Configuration
 public class FoodConfig {
     @Bean("food")
     @Conditional(RiceCondition.class)
